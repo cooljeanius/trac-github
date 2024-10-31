@@ -996,7 +996,7 @@ class GitHubPostCommitHook(GitHubMixin, Component):
                 p = Popen(hook, cwd=git_dir,
                           stdin=PIPE, stdout=PIPE, stderr=STDOUT,
                           close_fds=trac.util.compat.close_fds)
-            except Exception as e:
+            except Exception:
                 output += u'Error: hook execution failed with exception\n%s' % (traceback.format_exc(),)
                 status = 500
             else:
