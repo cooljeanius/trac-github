@@ -1191,6 +1191,7 @@ class GitHubAPIMock(BaseHTTPServer.BaseHTTPRequestHandler):
 
         path, _, querystring = self.path.partition('?')
         parameters = {k: v for k, _, v in (q.partition('=') for q in querystring.split('&') if q)}
+        host = self.headers.get('Host', '').replace('\r', '').replace('\n', '')
 
         if path in answers:
             answer = answers[path]
@@ -1214,7 +1215,7 @@ class GitHubAPIMock(BaseHTTPServer.BaseHTTPRequestHandler):
                 prevparams = parameters.copy()
                 prevparams.update({'page': (page - 1)})
                 prev_link = '<http://{}{}?{}>; rel="prev"'.format(
-                    self.headers['Host'],
+                    host,
                     path,
                     '&'.join(('='.join((str(k), str(v))) for k, v in prevparams.iteritems()))
                 )
@@ -1223,7 +1224,7 @@ class GitHubAPIMock(BaseHTTPServer.BaseHTTPRequestHandler):
                 nextparams = parameters.copy()
                 nextparams.update({'page': (page + 1)})
                 next_link = '<http://{}{}?{}>; rel="next"'.format(
-                    self.headers['Host'],
+                    host,
                     path,
                     '&'.join(('='.join((str(k), str(v))) for k, v in nextparams.iteritems()))
                 )
