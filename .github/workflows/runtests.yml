@@ -2,6 +2,8 @@
 name: runtests
 run-name: Run test suite for trac-github
 on: [pull_request]
+permissions:
+  contents: read
 jobs:
   runtests-py2:
     runs-on: ubuntu-latest
